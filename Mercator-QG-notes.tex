@@ -1,0 +1,893 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+
+\title{Linearized Barotropic Potential-Vorticity Equation in Mercator Coordinates}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Mercator Coordinates}
+
+Let
+\[
+x=\lambda,\qquad 
+y=\log \tan\left(\frac{\pi}{4}+\frac{\phi}{2}\right),
+\qquad 
+\frac{d\phi}{dy}=\cos\phi .
+\]
+In these Mercator coordinates, the spherical metric is
+\[
+ds^2=a^2\cos^2\phi\,(dx^2+dy^2),
+\]
+where \(a\) is the radius of the sphere.
+
+The computational domain is taken to be all longitudes and latitudes from
+\(80^\circ\mathrm{S}\) to \(80^\circ\mathrm{N}\):
+\[
+0\leq \lambda < 2\pi,
+\qquad
+-\frac{80\pi}{180}\leq \phi \leq \frac{80\pi}{180}.
+\]
+Equivalently,
+\[
+0\leq x<2\pi,
+\qquad
+y_S\leq y\leq y_N,
+\]
+where
+\[
+y_S
+=
+\log\tan\left(
+\frac{\pi}{4}
+-\frac{80\pi}{360}
+\right),
+\qquad
+y_N
+=
+\log\tan\left(
+\frac{\pi}{4}
++\frac{80\pi}{360}
+\right).
+\]
+Since the Mercator coordinate is antisymmetric about the equator,
+\[
+y_S=-y_N .
+\]
+
+\section{Perturbation Stream Function and Vorticity}
+
+Let \(\psi(x,y,t)\) be the perturbation stream function. The perturbation velocity components are
+\[
+u'=-\frac{1}{a\cos\phi}\psi_y,
+\qquad
+v'=\frac{1}{a\cos\phi}\psi_x .
+\]
+
+The perturbation relative vorticity is
+\[
+\zeta'
+=
+\nabla^2\psi
+=
+\frac{1}{a^2\cos^2\phi}
+\left(\psi_{xx}+\psi_{yy}\right).
+\]
+
+Define the Mercator Laplacian
+\[
+\Delta_M=\partial_x^2+\partial_y^2 .
+\]
+Then
+\[
+\zeta'
+=
+\frac{1}{a^2\cos^2\phi}\Delta_M\psi .
+\]
+
+\section{Background Flow and Background PV}
+
+The background flow is prescribed by the physical zonal and meridional winds
+\[
+U=U(\lambda,\phi),
+\qquad
+V=V(\lambda,\phi).
+\]
+In Mercator coordinates these are regarded as
+\[
+U=U(x,\phi(y)),
+\qquad
+V=V(x,\phi(y)).
+\]
+
+The Coriolis parameter is
+\[
+f=2\Omega\sin\phi .
+\]
+
+The background absolute vorticity is
+\[
+Q_0=f+\zeta_0,
+\]
+where the background relative vorticity is
+\[
+\zeta_0
+=
+\frac{1}{a\cos\phi}
+\left[
+V_x-\frac{1}{\cos\phi}\partial_y(U\cos\phi)
+\right].
+\]
+Equivalently,
+\[
+\zeta_0
+=
+\frac{1}{a\cos\phi}
+\left(
+V_x-U_y+U\sin\phi
+\right).
+\]
+
+The background material derivative is
+\[
+\mathcal D_0
+=
+\partial_t
++
+\frac{U}{a\cos\phi}\partial_x
++
+\frac{V}{a\cos\phi}\partial_y .
+\]
+
+Define the Jacobian
+\[
+J(A,B)=A_xB_y-A_yB_x .
+\]
+
+\section{Linearized Barotropic PV Equation}
+
+The inviscid, unforced linearized barotropic potential-vorticity equation for the perturbation stream function is
+\[
+\mathcal D_0
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
++
+\frac{1}{a^2\cos^2\phi}
+J(\psi,Q_0)
+=0 .
+\]
+
+Now include linear friction proportional to minus the perturbation relative vorticity,
+\[
+-r\nabla^2\psi=-r\zeta',
+\]
+and include an external forcing \(F(x,y,t)\). The forced-damped linearized equation is
+\[
+\boxed{
+\mathcal D_0
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
++
+\frac{1}{a^2\cos^2\phi}
+J(\psi,Q_0)
+=
+-r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
++
+F .
+}
+\]
+
+Equivalently,
+\[
+\boxed{
+\left(
+\partial_t
++
+\frac{U}{a\cos\phi}\partial_x
++
+\frac{V}{a\cos\phi}\partial_y
+\right)
+\left[
+\frac{1}{a^2\cos^2\phi}
+\left(\psi_{xx}+\psi_{yy}\right)
+\right]
++
+\frac{1}{a^2\cos^2\phi}
+\left(
+\psi_x Q_{0y}-\psi_y Q_{0x}
+\right)
+=
+-r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\left(\psi_{xx}+\psi_{yy}\right)
+\right]
++
+F .
+}
+\]
+
+If the background flow is not itself a steady solution of the nonlinear barotropic
+potential-vorticity equation, then an additional inhomogeneous term remains:
+\[
+\boxed{
+\mathcal D_0
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
++
+\frac{1}{a^2\cos^2\phi}
+J(\psi,Q_0)
+=
+-r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
++
+F
+-
+\mathcal D_0 Q_0 .
+}
+\]
+
+\section{Gaussian Forcing in the Ni\~no 3.4 Region}
+
+The external forcing \(F\) is chosen to be a Gaussian function of longitude
+and latitude, localized in the Ni\~no 3.4 region. The Ni\~no 3.4 box is
+\[
+5^\circ\mathrm{S}\leq \phi \leq 5^\circ\mathrm{N},
+\qquad
+170^\circ\mathrm{W}\leq \lambda \leq 120^\circ\mathrm{W}.
+\]
+Since the longitude domain is written as \(0\leq \lambda<2\pi\), the same longitude
+range is
+\[
+190^\circ\mathrm{E}\leq \lambda \leq 240^\circ\mathrm{E}.
+\]
+In radians,
+\[
+-\frac{5\pi}{180}\leq \phi \leq \frac{5\pi}{180},
+\qquad
+\frac{190\pi}{180}\leq \lambda \leq \frac{240\pi}{180}.
+\]
+
+The center of the box is
+\[
+\phi_c=0,
+\qquad
+\lambda_c=\frac{215\pi}{180}.
+\]
+Equivalently, \(\lambda_c=145^\circ\mathrm{W}=215^\circ\mathrm{E}\).
+
+Define the Gaussian widths
+\[
+\sigma_\lambda=\frac{25\pi}{180},
+\qquad
+\sigma_\phi=\frac{5\pi}{180}.
+\]
+
+Because longitude is periodic, define the wrapped longitudinal distance
+\[
+d_\lambda(\lambda,\lambda_c)
+=
+\operatorname{atan2}
+\left(
+\sin(\lambda-\lambda_c),
+\cos(\lambda-\lambda_c)
+\right).
+\]
+This gives the shortest signed angular distance between \(\lambda\) and
+\(\lambda_c\).
+
+The forcing is prescribed as
+\[
+\boxed{
+F(\lambda,\phi,t)
+=
+F_0\,S(t)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_\lambda(\lambda,\lambda_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right].
+}
+\]
+
+Here \(F_0\) is the forcing amplitude and \(S(t)\) is a nondimensional temporal
+envelope. For a steady forcing,
+\[
+S(t)=1.
+\]
+For an oscillatory forcing, one may take
+\[
+S(t)=\cos(\omega t).
+\]
+For a pulsed forcing, one may take
+\[
+S(t)
+=
+\exp\left[
+-\frac{(t-t_c)^2}{2\sigma_t^2}
+\right].
+\]
+
+In Mercator coordinates, since \(x=\lambda\) and \(\phi=\phi(y)\), the forcing is
+\[
+\boxed{
+F(x,y,t)
+=
+F_0\,S(t)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_x(x,x_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi(y)-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right],
+}
+\]
+where
+\[
+x_c=\lambda_c=\frac{215\pi}{180},
+\]
+and
+\[
+d_x(x,x_c)
+=
+\operatorname{atan2}
+\left(
+\sin(x-x_c),
+\cos(x-x_c)
+\right).
+\]
+
+\section{Prognostic-Diagnostic Form}
+
+Define the perturbation potential vorticity, equivalently the perturbation
+absolute-vorticity anomaly in the barotropic constant-depth case, by
+\[
+q
+=
+\zeta'
+=
+\frac{1}{a^2\cos^2\phi}\Delta_M\psi .
+\]
+
+Then the forced-damped linearized equation becomes the prognostic equation
+\[
+\boxed{
+\mathcal D_0 q
++
+\frac{1}{a^2\cos^2\phi}J(\psi,Q_0)
+=
+-rq+F .
+}
+\]
+
+Equivalently,
+\[
+\boxed{
+q_t
++
+\frac{U}{a\cos\phi}q_x
++
+\frac{V}{a\cos\phi}q_y
++
+\frac{1}{a^2\cos^2\phi}
+\left(
+\psi_x Q_{0y}-\psi_y Q_{0x}
+\right)
+=
+-rq+F .
+}
+\]
+
+With the Ni\~no 3.4 Gaussian forcing, this becomes
+\[
+\boxed{
+q_t
++
+\frac{U}{a\cos\phi}q_x
++
+\frac{V}{a\cos\phi}q_y
++
+\frac{1}{a^2\cos^2\phi}
+\left(
+\psi_x Q_{0y}-\psi_y Q_{0x}
+\right)
+=
+-rq
++
+F_0\,S(t)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_x(x,x_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi(y)-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right].
+}
+\]
+
+The diagnostic relation between \(q\) and \(\psi\) is the elliptic equation
+\[
+\boxed{
+\frac{1}{a^2\cos^2\phi}\Delta_M\psi=q .
+}
+\]
+Equivalently,
+\[
+\boxed{
+\Delta_M\psi
+=
+a^2\cos^2\phi\,q .
+}
+\]
+
+\section{Two-Step Time Advancement}
+
+Suppose \(q^n\) and \(\psi^n\) are known at time \(t^n\). A simple explicit
+time discretization from \(t^n\) to \(t^{n+1}=t^n+\Delta t\) is as follows.
+
+\subsection{Step 1: Advance the PV}
+
+Use the prognostic equation to advance \(q\):
+\[
+\boxed{
+\frac{q^{n+1}-q^n}{\Delta t}
++
+\frac{U}{a\cos\phi}q_x^n
++
+\frac{V}{a\cos\phi}q_y^n
++
+\frac{1}{a^2\cos^2\phi}
+J(\psi^n,Q_0)
+=
+-rq^n+F^n .
+}
+\]
+
+Thus,
+\[
+\boxed{
+q^{n+1}
+=
+q^n
+-\Delta t
+\left[
+\frac{U}{a\cos\phi}q_x^n
++
+\frac{V}{a\cos\phi}q_y^n
++
+\frac{1}{a^2\cos^2\phi}
+J(\psi^n,Q_0)
+\right]
++
+\Delta t
+\left[
+-rq^n+F^n
+\right].
+}
+\]
+
+For the Ni\~no 3.4 Gaussian forcing,
+\[
+\boxed{
+F^n(x,y)
+=
+F_0\,S(t^n)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_x(x,x_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi(y)-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right].
+}
+\]
+
+If the background is not a steady solution, replace the right-hand side by
+\[
+-rq^n+F^n-\mathcal D_0 Q_0 .
+\]
+
+\subsection{Step 2: Solve the Diagnostic Equation for the Stream Function}
+
+After \(q^{n+1}\) has been computed, recover \(\psi^{n+1}\) by solving
+\[
+\boxed{
+\frac{1}{a^2\cos^2\phi}\Delta_M\psi^{n+1}=q^{n+1}.
+}
+\]
+Equivalently,
+\[
+\boxed{
+\Delta_M\psi^{n+1}
+=
+a^2\cos^2\phi\,q^{n+1}.
+}
+\]
+
+Thus, at each time step, one first updates the prognostic PV variable \(q\), and
+then solves the elliptic inversion problem for the stream function \(\psi\).
+
+\section{Finite-Difference Formulation in Space and Time}
+
+Let the computational grid be
+\[
+x_i=i\Delta x,
+\qquad
+i=0,\ldots,N_x-1,
+\qquad
+\Delta x=\frac{2\pi}{N_x},
+\]
+and
+\[
+y_j=y_S+j\Delta y,
+\qquad
+j=0,\ldots,N_y-1,
+\qquad
+\Delta y=\frac{y_N-y_S}{N_y-1}.
+\]
+The time grid is
+\[
+t^n=t^0+n\Delta t .
+\]
+
+Write
+\[
+q_{i,j}^n \approx q(x_i,y_j,t^n),
+\qquad
+\psi_{i,j}^n \approx \psi(x_i,y_j,t^n).
+\]
+Define
+\[
+\phi_j=\phi(y_j),
+\qquad
+m_j=a\cos\phi_j .
+\]
+Thus
+\[
+\frac{1}{a\cos\phi_j}=\frac{1}{m_j},
+\qquad
+\frac{1}{a^2\cos^2\phi_j}=\frac{1}{m_j^2}.
+\]
+
+The longitude direction is periodic. Therefore, for any grid field \(A_{i,j}\),
+\[
+A_{i+N_x,j}=A_{i,j}.
+\]
+In particular,
+\[
+A_{-1,j}=A_{N_x-1,j},
+\qquad
+A_{N_x,j}=A_{0,j}.
+\]
+
+The centered finite-difference approximations are
+\[
+\delta_x A_{i,j}
+=
+\frac{A_{i+1,j}-A_{i-1,j}}{2\Delta x},
+\qquad
+\delta_y A_{i,j}
+=
+\frac{A_{i,j+1}-A_{i,j-1}}{2\Delta y}.
+\]
+The second derivatives are
+\[
+\delta_{xx}A_{i,j}
+=
+\frac{A_{i+1,j}-2A_{i,j}+A_{i-1,j}}{\Delta x^2},
+\qquad
+\delta_{yy}A_{i,j}
+=
+\frac{A_{i,j+1}-2A_{i,j}+A_{i,j-1}}{\Delta y^2}.
+\]
+
+The discrete Mercator Laplacian is
+\[
+\Delta_M^h A_{i,j}
+=
+\delta_{xx}A_{i,j}
++
+\delta_{yy}A_{i,j}.
+\]
+
+A centered approximation to the Jacobian is
+\[
+J^h(A,B)_{i,j}
+=
+(\delta_x A)_{i,j}(\delta_y B)_{i,j}
+-
+(\delta_y A)_{i,j}(\delta_x B)_{i,j}.
+\]
+
+The discrete diagnostic relation between \(q\) and \(\psi\) is
+\[
+\boxed{
+q_{i,j}^n
+=
+\frac{1}{m_j^2}
+\Delta_M^h \psi_{i,j}^n .
+}
+\]
+Equivalently,
+\[
+\boxed{
+\Delta_M^h \psi_{i,j}^n
+=
+m_j^2 q_{i,j}^n .
+}
+\]
+
+Written out explicitly,
+\[
+\boxed{
+\frac{\psi_{i+1,j}^n-2\psi_{i,j}^n+\psi_{i-1,j}^n}{\Delta x^2}
++
+\frac{\psi_{i,j+1}^n-2\psi_{i,j}^n+\psi_{i,j-1}^n}{\Delta y^2}
+=
+m_j^2 q_{i,j}^n .
+}
+\]
+
+The background fields are evaluated on the grid as
+\[
+U_{i,j}=U(x_i,\phi_j),
+\qquad
+V_{i,j}=V(x_i,\phi_j),
+\qquad
+Q_{0,i,j}=Q_0(x_i,y_j).
+\]
+
+The Gaussian forcing is evaluated on the grid as
+\[
+\boxed{
+F_{i,j}^n
+=
+F_0\,S(t^n)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_x(x_i,x_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi_j-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right].
+}
+\]
+Here
+\[
+\phi_c=0,
+\qquad
+x_c=\frac{215\pi}{180},
+\qquad
+\sigma_\lambda=\frac{25\pi}{180},
+\qquad
+\sigma_\phi=\frac{5\pi}{180},
+\]
+and
+\[
+d_x(x_i,x_c)
+=
+\operatorname{atan2}
+\left(
+\sin(x_i-x_c),
+\cos(x_i-x_c)
+\right).
+\]
+
+Using forward Euler in time and centered differences in space, the fully discrete
+PV update is
+\[
+\boxed{
+\begin{aligned}
+\frac{q_{i,j}^{n+1}-q_{i,j}^{n}}{\Delta t}
+&+
+\frac{U_{i,j}}{m_j}
+(\delta_x q^n)_{i,j}
++
+\frac{V_{i,j}}{m_j}
+(\delta_y q^n)_{i,j}
++
+\frac{1}{m_j^2}
+J^h(\psi^n,Q_0)_{i,j}
+\\
+&=
+-r q_{i,j}^{n}
++
+F_{i,j}^{n}.
+\end{aligned}
+}
+\]
+
+Therefore,
+\[
+\boxed{
+\begin{aligned}
+q_{i,j}^{n+1}
+=
+q_{i,j}^{n}
+&-
+\Delta t
+\left[
+\frac{U_{i,j}}{m_j}
+(\delta_x q^n)_{i,j}
++
+\frac{V_{i,j}}{m_j}
+(\delta_y q^n)_{i,j}
++
+\frac{1}{m_j^2}
+J^h(\psi^n,Q_0)_{i,j}
+\right]
+\\
+&+
+\Delta t
+\left[
+-r q_{i,j}^{n}
++
+F_{i,j}^{n}
+\right].
+\end{aligned}
+}
+\]
+
+Written out without operator notation, this is
+\[
+\boxed{
+\begin{aligned}
+q_{i,j}^{n+1}
+=
+q_{i,j}^{n}
+&-
+\Delta t
+\left[
+\frac{U_{i,j}}{m_j}
+\frac{q_{i+1,j}^{n}-q_{i-1,j}^{n}}{2\Delta x}
++
+\frac{V_{i,j}}{m_j}
+\frac{q_{i,j+1}^{n}-q_{i,j-1}^{n}}{2\Delta y}
+\right]
+\\
+&-
+\Delta t
+\left[
+\frac{1}{m_j^2}
+\left(
+\frac{\psi_{i+1,j}^{n}-\psi_{i-1,j}^{n}}{2\Delta x}
+\frac{Q_{0,i,j+1}-Q_{0,i,j-1}}{2\Delta y}
+\right.\right.
+\\
+&\hspace{4.5cm}
+\left.\left.
+-
+\frac{\psi_{i,j+1}^{n}-\psi_{i,j-1}^{n}}{2\Delta y}
+\frac{Q_{0,i+1,j}-Q_{0,i-1,j}}{2\Delta x}
+\right)
+\right]
+\\
+&+
+\Delta t
+\left[
+-r q_{i,j}^{n}
++
+F_0\,S(t^n)
+\exp
+\left[
+-\frac{1}{2}
+\left(
+\frac{d_x(x_i,x_c)^2}{\sigma_\lambda^2}
++
+\frac{(\phi_j-\phi_c)^2}{\sigma_\phi^2}
+\right)
+\right]
+\right].
+\end{aligned}
+}
+\]
+
+After this prognostic update, the stream function at the new time level is obtained
+from the discrete elliptic inversion
+\[
+\boxed{
+\Delta_M^h \psi_{i,j}^{n+1}
+=
+m_j^2 q_{i,j}^{n+1}.
+}
+\]
+That is,
+\[
+\boxed{
+\frac{\psi_{i+1,j}^{n+1}-2\psi_{i,j}^{n+1}+\psi_{i-1,j}^{n+1}}{\Delta x^2}
++
+\frac{\psi_{i,j+1}^{n+1}-2\psi_{i,j}^{n+1}+\psi_{i,j-1}^{n+1}}{\Delta y^2}
+=
+m_j^2 q_{i,j}^{n+1}.
+}
+\]
+
+This is a linear elliptic problem for the unknowns \(\psi_{i,j}^{n+1}\).
+
+\section{Boundary Conditions}
+
+The longitude direction is periodic:
+\[
+q(0,y,t)=q(2\pi,y,t),
+\qquad
+\psi(0,y,t)=\psi(2\pi,y,t).
+\]
+Equivalently, on the discrete grid,
+\[
+q_{i+N_x,j}^n=q_{i,j}^n,
+\qquad
+\psi_{i+N_x,j}^n=\psi_{i,j}^n.
+\]
+
+At the artificial northern and southern boundaries,
+\[
+\phi=\pm 80^\circ,
+\]
+one must impose a meridional boundary condition. Common choices are homogeneous
+Dirichlet conditions,
+\[
+\psi=0
+\qquad
+\text{at}
+\qquad
+\phi=\pm 80^\circ,
+\]
+or homogeneous Neumann conditions,
+\[
+\frac{\partial \psi}{\partial y}=0
+\qquad
+\text{at}
+\qquad
+\phi=\pm 80^\circ.
+\]
+
+For homogeneous Dirichlet conditions, the discrete boundary conditions are
+\[
+\psi_{i,0}^{n+1}=0,
+\qquad
+\psi_{i,N_y-1}^{n+1}=0.
+\]
+
+For homogeneous Neumann conditions, one may impose
+\[
+\frac{\psi_{i,1}^{n+1}-\psi_{i,0}^{n+1}}{\Delta y}=0,
+\qquad
+\frac{\psi_{i,N_y-1}^{n+1}-\psi_{i,N_y-2}^{n+1}}{\Delta y}=0.
+\]
+
+The corresponding treatment of \(q\) at the meridional boundaries should be chosen
+consistently with the elliptic inversion for \(\psi\).
+
+
+\end{document}

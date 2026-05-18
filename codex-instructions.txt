@@ -1,0 +1,5 @@
+I have here notes with the QG equation in Mercator coordinates, including a finite difference formulation. There is also a .mat file with the U,V field in spherical coordinates.
+
+Write a Python code to integrate this equation for 10 years, using a resolution of 0.5 degrees in both longitude and latitude, starting with zero stream function. You may need to interpolate the given U,V field to use it.
+
+Create an animation file of the stream function time evolution, showing snapshots every day, with 30 FPS. Make sure the continental outlines are shown in the animation. 
