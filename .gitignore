@@ -2,4 +2,3 @@
 .matplotlib-cache/
 __pycache__/
 *.pyc
-CESM2_piControl_DJF_UV_300hPa_climatology.mat
