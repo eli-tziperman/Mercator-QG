@@ -10,6 +10,12 @@
      \[
      -r \nabla^2\ \psi,
      \]
+	 adjusted for Mercator coordinates as needed.
+   - Another friction term proportional to
+     \[
+     +\kappa \nabla^4\ \psi,
+     \]
+	 adjusted for Mercator coordinates as needed.
    - A steady forcing term that is a Gaussian in latitude and longitude in the Niño 3.4 region.
    - The two-step time-advancement procedure:
      1. first advance the PV,
@@ -20,4 +26,3 @@
 4. Make the domain be from 80S to 80N, all longitudes, with periodic boundary conditions in longitude.
 
 5. Give the result as a complete LaTeX file that can be compiled.
-

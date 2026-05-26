@@ -3,7 +3,8 @@
 
 The implementation follows Mercator-QG-notes.tex:
 
-    q_t + U/m q_x + V/m q_y + m^-2 J(psi, Q0) = -r q + F,
+    q_t + U/m q_x + V/m q_y + m^-2 J(psi, Q0)
+        = -r q + kappa m^-2 Delta_M q + F,
     Delta_M psi = m^2 q,
 
 where m = a cos(phi), x is longitude, y is the Mercator latitude, and the
@@ -87,6 +88,7 @@ class Config:
     snapshot_days: float
     fps: int
     friction_days: float
+    kappa_m2_s: float
     forcing_amplitude: float
     forcing_mode: str
     forcing_period_days: float
@@ -334,11 +336,15 @@ def make_rhs(
             * temporal_envelope(config, t_seconds)
             * pattern
         )
+        biharmonic = config.kappa_m2_s * grid.inv_m2[:, None] * (
+            d2dx_periodic(q, grid.dx) + d2dy_centered(q, grid.dy)
+        )
         tendency = (
             -u_adv * qx
             - v_adv * qy
             - grid.inv_m2[:, None] * jacobian
             - base_friction * q
+            + biharmonic
             - zonal_mean_damping * np.mean(q, axis=1, keepdims=True)
             + forcing
             - residual
@@ -401,10 +407,23 @@ def estimate_dt(config: Config, grid: Grid, background: Background) -> float:
 
     u_coord = np.nanmax(np.abs(background.u * grid.inv_m[:, None]))
     v_coord = np.nanmax(np.abs(background.v * grid.inv_m[:, None]))
-    denominator = u_coord / grid.dx + v_coord / grid.dy
-    if denominator == 0.0:
+    advective_denominator = u_coord / grid.dx + v_coord / grid.dy
+    candidates: list[float] = []
+    if advective_denominator > 0.0:
+        candidates.append(float(config.cfl / advective_denominator))
+
+    if config.kappa_m2_s > 0.0:
+        diffusion_denominator = (
+            config.kappa_m2_s
+            * np.nanmax(grid.inv_m2)
+            * (1.0 / grid.dx**2 + 1.0 / grid.dy**2)
+        )
+        if diffusion_denominator > 0.0:
+            candidates.append(float(0.45 / diffusion_denominator))
+
+    if not candidates:
         return SECONDS_PER_DAY
-    return float(config.cfl / denominator)
+    return min(candidates)
 
 
 def cfl_number(dt: float, grid: Grid, background: Background) -> float:
@@ -618,6 +637,12 @@ def parse_args() -> Config:
     parser.add_argument("--snapshot-days", type=float, default=1.0)
     parser.add_argument("--fps", type=int, default=30)
     parser.add_argument("--friction-days", type=float, default=20.0)
+    parser.add_argument(
+        "--kappa-m2-s",
+        type=float,
+        default=1.0e4,
+        help="Coefficient for the +kappa nabla^4 psi term, in m^2/s.",
+    )
     parser.add_argument("--forcing-amplitude", type=float, default=1.0e-11)
     parser.add_argument(
         "--forcing-mode",
@@ -659,6 +684,7 @@ def parse_args() -> Config:
         snapshot_days=args.snapshot_days,
         fps=args.fps,
         friction_days=args.friction_days,
+        kappa_m2_s=args.kappa_m2_s,
         forcing_amplitude=args.forcing_amplitude,
         forcing_mode=args.forcing_mode,
         forcing_period_days=args.forcing_period_days,
@@ -698,6 +724,7 @@ def main() -> int:
     print(f"Run length: {config.years:g} years, {total_steps} steps")
     print(f"Snapshots: {snapshots} every {config.snapshot_days:g} day(s), fps={config.fps}")
     print(f"Forcing structure: {config.forcing_structure}")
+    print(f"Biharmonic coefficient kappa: {config.kappa_m2_s:.3e} m^2/s")
     if config.zonal_mean_damping_days > 0.0:
         print(
             "Zonal-mean streamfunction damping timescale: "

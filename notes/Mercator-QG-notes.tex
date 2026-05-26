@@ -168,31 +168,59 @@ Now include linear friction proportional to minus the perturbation relative vort
 \[
 -r\nabla^2\psi=-r\zeta',
 \]
-and include an external forcing \(F(x,y,t)\). The forced-damped linearized equation is
+and a biharmonic friction term proportional to
+\[
++\kappa\nabla^4\psi
+=
++\kappa\nabla^2(\nabla^2\psi)
+=
++\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right].
+\]
+Then include an external forcing \(F(x,y,t)\). The forced-damped linearized equation is
 \[
 \boxed{
+\begin{aligned}
 \mathcal D_0
 \left[
 \frac{1}{a^2\cos^2\phi}
 \Delta_M\psi
 \right]
-+
+&+
 \frac{1}{a^2\cos^2\phi}
 J(\psi,Q_0)
-=
+\\
+&=
 -r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
+\\
+&\quad
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M
 \left[
 \frac{1}{a^2\cos^2\phi}
 \Delta_M\psi
 \right]
 +
 F .
+\end{aligned}
 }
 \]
 
 Equivalently,
 \[
 \boxed{
+\begin{aligned}
 \left(
 \partial_t
 +
@@ -204,19 +232,33 @@ Equivalently,
 \frac{1}{a^2\cos^2\phi}
 \left(\psi_{xx}+\psi_{yy}\right)
 \right]
-+
+&+
 \frac{1}{a^2\cos^2\phi}
 \left(
 \psi_x Q_{0y}-\psi_y Q_{0x}
 \right)
-=
+\\
+&=
 -r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\left(\psi_{xx}+\psi_{yy}\right)
+\right]
+\\
+&\quad
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\left(
+\partial_x^2+\partial_y^2
+\right)
 \left[
 \frac{1}{a^2\cos^2\phi}
 \left(\psi_{xx}+\psi_{yy}\right)
 \right]
 +
 F .
+\end{aligned}
 }
 \]
 
@@ -224,16 +266,28 @@ If the background flow is not itself a steady solution of the nonlinear barotrop
 potential-vorticity equation, then an additional inhomogeneous term remains:
 \[
 \boxed{
+\begin{aligned}
 \mathcal D_0
 \left[
 \frac{1}{a^2\cos^2\phi}
 \Delta_M\psi
 \right]
-+
+&+
 \frac{1}{a^2\cos^2\phi}
 J(\psi,Q_0)
-=
+\\
+&=
 -r
+\left[
+\frac{1}{a^2\cos^2\phi}
+\Delta_M\psi
+\right]
+\\
+&\quad
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M
 \left[
 \frac{1}{a^2\cos^2\phi}
 \Delta_M\psi
@@ -242,6 +296,7 @@ J(\psi,Q_0)
 F
 -
 \mathcal D_0 Q_0 .
+\end{aligned}
 }
 \]
 
@@ -381,7 +436,13 @@ Then the forced-damped linearized equation becomes the prognostic equation
 +
 \frac{1}{a^2\cos^2\phi}J(\psi,Q_0)
 =
--rq+F .
+-rq
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M q
++
+F .
 }
 \]
 
@@ -399,7 +460,13 @@ q_t
 \psi_x Q_{0y}-\psi_y Q_{0x}
 \right)
 =
--rq+F .
+-rq
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\left(q_{xx}+q_{yy}\right)
++
+F .
 }
 \]
 
@@ -418,6 +485,10 @@ q_t
 \right)
 =
 -rq
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M q
 +
 F_0\,S(t)
 \exp
@@ -466,7 +537,13 @@ Use the prognostic equation to advance \(q\):
 \frac{1}{a^2\cos^2\phi}
 J(\psi^n,Q_0)
 =
--rq^n+F^n .
+-rq^n
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M q^n
++
+F^n .
 }
 \]
 
@@ -488,7 +565,13 @@ J(\psi^n,Q_0)
 +
 \Delta t
 \left[
--rq^n+F^n
+-rq^n
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M q^n
++
+F^n
 \right].
 }
 \]
@@ -513,7 +596,15 @@ F_0\,S(t^n)
 
 If the background is not a steady solution, replace the right-hand side by
 \[
--rq^n+F^n-\mathcal D_0 Q_0 .
+-rq^n
++
+\kappa
+\frac{1}{a^2\cos^2\phi}
+\Delta_M q^n
++
+F^n
+-
+\mathcal D_0 Q_0 .
 \]
 
 \subsection{Step 2: Solve the Diagnostic Equation for the Stream Function}
@@ -617,6 +708,24 @@ The discrete Mercator Laplacian is
 \delta_{xx}A_{i,j}
 +
 \delta_{yy}A_{i,j}.
+\]
+
+The corresponding discrete physical Laplacian is
+\[
+(\nabla_h^2 A)_{i,j}
+=
+\frac{1}{m_j^2}
+\Delta_M^h A_{i,j}.
+\]
+Thus the discrete biharmonic friction acting on the stream function can be
+computed as a physical Laplacian of the prognostic PV:
+\[
+(\nabla_h^4\psi^n)_{i,j}
+=
+(\nabla_h^2 q^n)_{i,j}
+=
+\frac{1}{m_j^2}
+\Delta_M^h q_{i,j}^n.
 \]
 
 A centered approximation to the Jacobian is
@@ -723,6 +832,10 @@ J^h(\psi^n,Q_0)_{i,j}
 &=
 -r q_{i,j}^{n}
 +
+\kappa
+\frac{1}{m_j^2}
+\Delta_M^h q_{i,j}^{n}
++
 F_{i,j}^{n}.
 \end{aligned}
 }
@@ -752,6 +865,10 @@ J^h(\psi^n,Q_0)_{i,j}
 \Delta t
 \left[
 -r q_{i,j}^{n}
++
+\kappa
+\frac{1}{m_j^2}
+\Delta_M^h q_{i,j}^{n}
 +
 F_{i,j}^{n}
 \right].
@@ -797,6 +914,14 @@ q_{i,j}^{n}
 \Delta t
 \left[
 -r q_{i,j}^{n}
++
+\kappa
+\frac{1}{m_j^2}
+\left[
+\frac{q_{i+1,j}^{n}-2q_{i,j}^{n}+q_{i-1,j}^{n}}{\Delta x^2}
++
+\frac{q_{i,j+1}^{n}-2q_{i,j}^{n}+q_{i,j-1}^{n}}{\Delta y^2}
+\right]
 +
 F_0\,S(t^n)
 \exp
